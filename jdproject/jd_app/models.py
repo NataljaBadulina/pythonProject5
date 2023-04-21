@@ -1,18 +1,24 @@
 from django.db import models
 from datetime import datetime
+from django.contrib.auth.models import User
+from django.core.validators import MinValueValidator
 
 director = 'DI'
 admin = 'AD'
 cook = 'CO'
 cashier = 'CA'
 cleaner = 'CL'
+owner = 'OW'
+master = 'MS'
 
 POSITIONS = [
     (director, 'Директор'),
     (admin, 'Администратор'),
     (cook, 'Повар'),
     (cashier, 'Кассир'),
-    (cleaner, 'Уборщик')
+    (cleaner, 'Уборщик'),
+    (owner, 'Owner'),
+    (master, 'Master'),
 ]
 
 
@@ -28,9 +34,22 @@ class Staff(models.Model):
 
 
 class Product(models.Model):
-    name = models.CharField(max_length=255)
-    price = models.FloatField(default=0.0)
+    name = models.CharField(max_length=255, unique=True)
+    price = models.FloatField(validators=[MinValueValidator(0.0)],)
     composition = models.TextField(default="Состав не указан")
+    description = models.TextField()
+    quantity = models.IntegerField(validators=[MinValueValidator(0)],)
+    category = models.ForeignKey(to ='Category', on_delete=models.CASCADE,related_name='products',)
+
+    def __str__(self):
+        return f'{self.name.title()}:{self.description[:20]}'
+
+
+class Category(models.Model):
+    name=models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.name.title()
 
 
 class Order(models.Model):
@@ -72,3 +91,23 @@ class ProductOrder(models.Model):
     def product_sum(self):
         product_price = self.product.price
         return product_price * self._amount
+
+
+class Author(models.Model):
+    authorUser = models.OneToOneField(User, on_delete=models.CASCADE)
+    ratingAuthor = models.SmallIntegerField(default=0)
+    full_name = models.CharField(max_length=128)
+    age = models.IntegerField(blank=True)
+    email = models.CharField(max_length=255,blank=True)
+
+    def update_rating(self):
+        postRat = self.post_set.aggregate(postRating=Sum('rating'))
+        pRat = 0
+        pRat += postRat.get('postRating')
+
+        commentRat = self.authorUser.comment_set.aggregate(commentRating=Sum('rating'))
+        cRat = 0
+        cRat += commentRat.get('commentRating')
+
+        self.ratingAuthor = pRat * 3 + cRat
+        self.save()
