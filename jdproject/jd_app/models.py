@@ -39,14 +39,14 @@ class Product(models.Model):
     composition = models.TextField(default="Состав не указан")
     description = models.TextField()
     quantity = models.IntegerField(validators=[MinValueValidator(0)],)
-    category = models.ForeignKey(to ='Category', on_delete=models.CASCADE,related_name='products',)
+    category = models.ForeignKey(to ='Category', on_delete=models.CASCADE,related_name='Products',)
 
     def __str__(self):
-        return f'{self.name.title()}:{self.description[:20]}'
+        return f'{self.name.title()}:{self.description[:100]}'
 
 
 class Category(models.Model):
-    name=models.CharField(max_length=100, unique=True)
+    name=models.CharField(max_length=100, unique=False)
 
     def __str__(self):
         return self.name.title()
