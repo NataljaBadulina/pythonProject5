@@ -1,18 +1,15 @@
 from django.shortcuts import render
 from datetime import datetime
-from django.views.generic import ListView, DetailView
 from .models import Product
 from .filters import ProductFilter
 from .forms import ProductForm
 from django.http import HttpResponseRedirect
-
 from django.urls import reverse_lazy
-from django.views.generic import (
-    ListView, DetailView, CreateView, UpdateView, DeleteView
-)
-
-
+from django.views.generic import (ListView, DetailView, CreateView, UpdateView, DeleteView)
 from django.http import HttpResponse
+# --------------------------
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -65,7 +62,8 @@ def create_product(request):
 
 
 # Добавляем новое представление для создания товаров.
-class ProductCreate(CreateView):
+class ProductCreate(LoginRequiredMixin, CreateView):
+    raise_exception = True
     # Указываем нашу разработанную форму
     form_class = ProductForm
     # модель товаров
