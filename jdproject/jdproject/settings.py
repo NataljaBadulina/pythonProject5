@@ -58,13 +58,34 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 SITE_ID = 1
-ACCOUNT_EMAIL_VERIFICATION = "none"
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"    # variables - 'optional' and 'none'
 # ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_FORMS = {"signup": "accounts.forms.CustomSignupForm"}
+
+# Настройки почты
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = 'smtp.qmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "badulina.natalja@gmail.com"
+EMAIL_HOST_PASSWORD = "SuperStar12345vsh4pq"
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+
+DEFAULT_FROM_EMAIL = "badulina.natalja@gmail.com"
+
+SERVER_EMAIL = "badulina.natalja@gmail.com"
+
+MANAGERS = (
+    ('Ivan', 'ivan@yandex.ru'),
+    ('Petr', 'petr@yandex.ru'),
+)
+ADMINS = (('Nata', 'badulina.natalja@gmail.com'), )
+
 
 LOGIN_REDIRECT_URL = '/products'
 LOGOUT_REDIRECT_URL = '/products'
@@ -159,23 +180,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
-# Настройки почты
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-EMAIL_HOST = 'smtp.qmail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = "badulina.natalja@gmail.com"
-EMAIL_HOST_PASSWORD = "SuperStar12345vsh4pq"
-EMAIL_USE_TLS = False
-EMAIL_USE_SSL = True
 
-DEFAULT_FROM_EMAIL = "badulina.natalja@gmail.com"
-
-SERVER_EMAIL = "badulina.natalja@gmail.com"
-
-MANAGERS = (
-    ('Ivan', 'ivan@yandex.ru'),
-    ('Petr', 'petr@yandex.ru'),
-)
-ADMINS = (('Nata', 'badulina.natalja@gmail.com'), )
 
