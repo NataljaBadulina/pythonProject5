@@ -29,19 +29,25 @@ class CustomSignupForm(SignupForm):
         user = super().save(request)
         common_users = Group.objects.get(name="common users")
         user.groups.add(common_users)
+        send_mail(
+            subject='Wellcome to JD online store!',
+            message=f'{user.username}, You are succesfully registered on our site!',
+            from_email=None,  # будет использовано значение DEFAULT_FROM_EMAIL
+            recipient_list=[user.email],
+        )
         mail_managers(
             subject='Новый пользователь!',
             message=f'Пользователь {user.username} зарегистрировался на сайте.'
         )
         mail_admins(
             subject='',
-            message=f'User {user.username} registered on the site.'
+            message=f'Dear Admin, user {user.username} registered on the site.'
         )
         subject = 'Wellcome to our News portal!'
         text = f'{user.username}, you successfully registered!'
         html = (
             f'<b>{user.username}</b>, You successfully registered on '
-            f'<a href="http://127.0.0.1:8000/news">News online</a>!'
+            f'<a href="http://127.0.0.1:8000/products">JD online store</a>!'
         )
         msg = EmailMultiAlternatives(
             subject=subject, body=text, from_email=None, to=[user.email]

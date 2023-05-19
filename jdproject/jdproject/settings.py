@@ -165,7 +165,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = 'smtp.qmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = "badulina.natalja@gmail.com"
-EMAIL_HOST_PASSWORD = "xxxxxxxxxxxxxxxxx"
+EMAIL_HOST_PASSWORD = "SuperStar12345vsh4pq"
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 
