@@ -27,11 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-LOGIN_REDIRECT_URL = '/products'
-LOGOUT_REDIRECT_URL = '/products'
-
-ACCOUNT_FORMS = {"signup": "accounts.forms.CustomSignupForm"}
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -43,17 +38,36 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.flatpages',
-    'fpages',
+    'accounts',
     'jd_app',
     'django_filters',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.yandex',
+    # 3rd party
+    "allauth",  # new
+    "allauth.account",  # new
+    "allauth.socialaccount",  # new
+    # social providers
+    "allauth.socialaccount.providers.google",  # new
+    # "allauth.socialaccount.providers.twitter",  # new
+    #'allauth.socialaccount.providers.yandex',
 
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
 SITE_ID = 1
+ACCOUNT_EMAIL_VERIFICATION = "none"
+# ACCOUNT_LOGOUT_ON_GET = True
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_FORMS = {"signup": "accounts.forms.CustomSignupForm"}
+
+LOGIN_REDIRECT_URL = '/products'
+LOGOUT_REDIRECT_URL = '/products'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -88,17 +102,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'jdproject.wsgi.application'
 
-AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
-]
 
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_UNIQUE_EMAIL = True
-ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_EMAIL_VERIFICATION = 'none'
-ACCOUNT_FORMS = {"signup": "accounts.forms.CustomSignupForm"}
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -145,7 +149,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -155,3 +159,23 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
+# Настройки почты
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = 'smtp.qmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "badulina.natalja@gmail.com"
+EMAIL_HOST_PASSWORD = "xxxxxxxxxxxxxxxxx"
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+
+DEFAULT_FROM_EMAIL = "badulina.natalja@gmail.com"
+
+SERVER_EMAIL = "badulina.natalja@gmail.com"
+
+MANAGERS = (
+    ('Ivan', 'ivan@yandex.ru'),
+    ('Petr', 'petr@yandex.ru'),
+)
+ADMINS = (('Nata', 'badulina.natalja@gmail.com'), )
+
