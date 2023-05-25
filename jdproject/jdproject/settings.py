@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     "allauth.socialaccount.providers.google",  # new
     # "allauth.socialaccount.providers.twitter",  # new
     #'allauth.socialaccount.providers.yandex',
-
+    'django_apscheduler',
 ]
 
 AUTHENTICATION_BACKENDS = [

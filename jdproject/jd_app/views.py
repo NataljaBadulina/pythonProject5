@@ -74,11 +74,13 @@ class ProductCreate(LoginRequiredMixin, CreateView):
     # и новый шаблон, в котором используется форма.
     template_name = 'flatpages/product_edit.html'
 
+
 # Добавляем представление для изменения товара.
 class ProductUpdate(UpdateView):
     form_class = ProductForm
     model = Product
     template_name = 'flatpages/product_edit.html'
+
 
 # Представление удаляющее товар.
 class ProductDelete(DeleteView):
